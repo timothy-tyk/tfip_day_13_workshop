@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .error {
+        color: red;
+      }
+    </style>
+    <title>Contacts</title>
+  </head>
+  <body>
+    <h1>Add a Contact</h1>
+    <form
+      method="post"
+      action="#"
+      data-th-action="@{/contact}"
+      data-th-object="${contact}"
+    >
+      <div>
+        Name: <input type="text" data-th-field="*{name}" /><span
+          class="error"
+          data-th-if="${#fields.hasErrors('name')}"
+          data-th-errors="*{name}"
+        ></span>
+      </div>
+
+      <div>
+        Email: <input type="text" data-th-field="*{email}" /><span
+          class="error"
+          data-th-if="${#fields.hasErrors('email')}"
+          data-th-errors="*{email}"
+        ></span>
+      </div>
+      <div>
+        Phone Number: <input type="text" data-th-field="*{phoneNumber}" />
+        <span
+          class="error"
+          data-th-if="${#fields.hasErrors('phoneNumber')}"
+          data-th-errors="*{phoneNumber}"
+        ></span>
+      </div>
+      <div>
+        Date of Birth: <input type="date" data-th-field="*{dateOfBirth}" />
+        <span
+          class="error"
+          data-th-if="${#fields.hasErrors('dateOfBirth')}"
+          data-th-errors="*{dateOfBirth}"
+        ></span>
+      </div>
+      <div><input type="submit" value="Add Contact" /></div>
+    </form>
+    <hr />
+    <a href="/contact/all">See All</a>
+  </body>
+</html>
