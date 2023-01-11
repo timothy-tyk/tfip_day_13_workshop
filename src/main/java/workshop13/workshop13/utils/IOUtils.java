@@ -1,4 +1,5 @@
 package workshop13.workshop13.utils;
+import java.beans.JavaBean;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,20 +7,25 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import workshop13.workshop13.models.Contacts;
 
+@Component
 public class IOUtils {
-  
+  @Autowired 
+  ApplicationArguments appArgs1;
+
   public void writeToFile(Contacts contact, ApplicationArguments appArgs){
     String directoryFolder = System.getProperty("user.dir")+ appArgs.getOptionValues("dataDir").get(0);
     try {
@@ -37,6 +43,7 @@ public class IOUtils {
   }
 
   public void getAllContacts(Model model, ApplicationArguments appArgs){
+    System.out.println("Appargs1: "+appArgs1);
     String directoryFolder = System.getProperty("user.dir")+ appArgs.getOptionValues("dataDir").get(0);
     Map<String, String> allContacts = new HashMap<String, String>();
     for(File file: new File(directoryFolder).listFiles()){
@@ -45,6 +52,7 @@ public class IOUtils {
         BufferedReader bfr = new BufferedReader(new FileReader(directoryFolder+"/"+id));
         String name = bfr.readLine();
         allContacts.put(id, name);
+        bfr.close();
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -64,10 +72,10 @@ public class IOUtils {
         contactDetails.add(line);
       }
       model.addAttribute("contactDetails",contactDetails);
+      bfr.close();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

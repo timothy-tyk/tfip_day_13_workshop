@@ -27,6 +27,9 @@ public class ContactController {
   }  
 
   @Autowired
+  IOUtils io;
+
+  @Autowired
   ApplicationArguments appArgs;
   @PostMapping()
   public String postContactForm(Model model, @Valid @ModelAttribute("contact") Contacts contacts, BindingResult bindingResult){
@@ -34,7 +37,8 @@ public class ContactController {
     if(bindingResult.hasErrors()){
       return "contact";
     }
-    workshop13.workshop13.utils.IOUtils io = new workshop13.workshop13.utils.IOUtils();
+    // Cannot instantiate new component, autowiring will not work
+    // workshop13.workshop13.utils.IOUtils io = new workshop13.workshop13.utils.IOUtils();
     
     io.writeToFile(contacts, appArgs);
     model.addAttribute("contact", contacts);
@@ -43,14 +47,15 @@ public class ContactController {
 
   @GetMapping("/all")
   public String showAllContacts(Model model){
-    IOUtils io = new IOUtils();
+    // IOUtils io = new IOUtils(); // Cannot instantiate new component, autowiring will not work
+
     io.getAllContacts(model, appArgs);
     return "contactList";
   }
 
   @GetMapping("/{id}")
   public String showContactById(Model model, @PathVariable String id){
-    IOUtils io = new IOUtils();
+    // IOUtils io = new IOUtils(); // Cannot instantiate new component, autowiring will not work
     io.getContactById(model, id, appArgs);
     return "contactDetails";
   }
